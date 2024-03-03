@@ -40,6 +40,4 @@ models:
   take_home:
     dashboard:
       +materialized: table
-      +database: astray-thc
-      +schema: dashboard
       +location: EU
