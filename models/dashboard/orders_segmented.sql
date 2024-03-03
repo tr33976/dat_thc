@@ -12,6 +12,6 @@ SELECT
 FROM 
     source_data AS src
 LEFT JOIN {{ref('order_num_segments')}} AS seg 
-    ON src.orders_id = seg.orders_id
+    ON src.orders_id = seg.orders_id AND src.date_date = seg.date_date
 
 

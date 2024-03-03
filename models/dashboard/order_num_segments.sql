@@ -7,16 +7,17 @@ WITH source_data as (
 
 segment_cte as (
     SELECT 
-        orders_id,
-        COUNT(*) OVER (PARTITION BY customers_id ORDER BY date_date ROWS BETWEEN 365 PRECEDING AND CURRENT ROW) AS yr_cnt
+        *,
+        (SELECT COUNT(B.orders_id) FROM source_data B
+        WHERE B.date_date BETWEEN A.date_date - 365 AND A.date_date
+        AND A.customers_id = B.customers_id) as yr_cnt
     FROM 
-        source_data
-    WHERE EXTRACT(YEAR FROM date_date) = 2023
-    ORDER BY customers_id, date_date DESC
+        source_data A
 )
 
 SELECT 
-    orders_id, 
+    orders_id,
+    date_date, 
     CASE
         WHEN yr_cnt = 1 THEN 'new'
         WHEN yr_cnt > 1 AND yr_cnt <= 4 THEN 'returning'
@@ -24,7 +25,7 @@ SELECT
         ELSE 'no_segment'
     END as trans_segment
 FROM segment_cte
-
+WHERE EXTRACT(YEAR FROM date_date) = 2023
 
 
 
