@@ -11,8 +11,8 @@ segment_cte as (
         COUNT(*) OVER (PARTITION BY customers_id ORDER BY date_date ROWS BETWEEN 365 PRECEDING AND CURRENT ROW) AS yr_cnt
     FROM 
         source_data
-    ORDER BY customers_id, date_date DESC
     WHERE EXTRACT(YEAR FROM date_date) = 2023
+    ORDER BY customers_id, date_date DESC
 )
 
 SELECT 
