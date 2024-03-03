@@ -1,4 +1,4 @@
-{{ config(materialized='materialized_view') }}
+{{ config(materialized='view') }}
 
 with source_data as (
     select * from datastore_thc.sales
